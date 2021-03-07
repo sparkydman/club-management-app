@@ -21,18 +21,15 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/clubs', require('./routes/clubs'));
 app.use(errorHandler);
 
-app.use(express.static(path.join(__dirname, './frontend/build')));
+const __dirname = path.resolve();
 
-app.get('*', function (_, res) {
-  res.sendFile(
-    path.join(__dirname, './frontend/build/index.html'),
-    function (err) {
-      if (err) {
-        res.status(500).send(err);
-      }
-    }
-  );
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 8000;
 
