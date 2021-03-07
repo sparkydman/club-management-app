@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 const models = require('./models');
 const errorHandler = require('./middleware/error-handler.js');
@@ -20,6 +21,15 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/clubs', require('./routes/clubs'));
 app.use(errorHandler);
 
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
 const PORT = process.env.PORT || 8000;
 
 models.sequelize.sync({}).then(() => {
