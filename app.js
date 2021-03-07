@@ -21,8 +21,6 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/clubs', require('./routes/clubs'));
 app.use(errorHandler);
 
-const __dirname = path.resolve();
-
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('frontend/build'));
 
