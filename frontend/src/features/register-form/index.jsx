@@ -20,7 +20,7 @@ export default function Registerform() {
 
   const dispatch = useDispatch();
   const registerState = useSelector((state) => state.register);
-  const { user, loading, error } = registerState;
+  const { user, loading } = registerState;
 
   const history = useHistory();
 
