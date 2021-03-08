@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const favicon = require('express-favicon');
 
 const models = require('./models');
 const errorHandler = require('./middleware/error-handler.js');
@@ -23,7 +22,6 @@ app.use('/api/clubs', require('./routes/clubs'));
 app.use(errorHandler);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(favicon(__dirname + 'frontend/build/favicon.ico'));
   app.use(express.static(__dirname));
   app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
