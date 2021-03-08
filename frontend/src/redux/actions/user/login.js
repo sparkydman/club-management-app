@@ -1,4 +1,4 @@
-import http from '../../../utils/axios';
+import axios from 'axios';
 
 import {
   LOGIN_FAIL,
@@ -11,8 +11,8 @@ import {
 const login = (userData) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
-    const { data } = await http.post('/users/login', userData);
-    http.defaults.headers.Authorization = `Bearer ${data.token}`;
+    const { data } = await axios.post('/users/login', userData);
+    axios.defaults.headers.Authorization = `Bearer ${data.token}`;
     dispatch({
       type: SET_TOKEN,
       payload: data.data.token,
