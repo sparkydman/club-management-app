@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const favicon = require('express-favicon');
 
 const models = require('./models');
 const errorHandler = require('./middleware/error-handler.js');
