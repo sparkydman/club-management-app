@@ -15,7 +15,7 @@ const options = {
 const http = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? `${process.env.SITE_URL}/api`
+      ? `${process.env.REACT_APP_SITE_URL}/api`
       : 'http://localhost:8000/api',
   headers: options,
 });
