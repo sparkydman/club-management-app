@@ -1,4 +1,4 @@
-import axios from 'axios';
+import http from '../../../utils/axios';
 
 import {
   REGISTER_FAIL,
@@ -10,8 +10,8 @@ import {
 const Register = (userData) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_REQUEST });
-    const { data } = await axios.post('/users', userData);
-    axios.defaults.headers.Authorization = `Bearer ${data.token}`;
+    const { data } = await http.post('/users', userData);
+    http.defaults.headers.Authorization = `Bearer ${data.token}`;
     dispatch({
       type: SET_TOKEN,
       payload: data.token,
