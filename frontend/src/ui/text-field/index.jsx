@@ -6,6 +6,7 @@ export default function TextField({
   type = 'text',
   name,
   placeholder = '',
+  error = '',
   ...rest
 }) {
   return (
@@ -14,13 +15,16 @@ export default function TextField({
         {label}
       </label>
       <input
-        className='block py-3 px-1 border border-solid border-blue-900 rounded-md outline-none w-full'
+        className={`block py-3 px-1 border border-solid rounded-md outline-none w-full ${
+          error ? 'border-red-400' : 'border-blue-900'
+        }`}
         type={type}
         name={name}
         placeholder={placeholder}
         {...rest}
         id={id}
       />
+      {error && <span className='pt-1 text-red-400 text-sm'>{error}</span>}
     </div>
   );
 }

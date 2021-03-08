@@ -25,12 +25,19 @@ module.exports = async (req, res) => {
     clubId: req.club.id,
     userId: req.user.id,
   });
+  const WEB_URL =
+    process.env.NODE_ENV === 'production'
+      ? process.env.SITE_URL
+      : 'http://localhost:8000';
 
   const emailBody = {
     from: `${req.user.firstname} ${req.user.lastname}`,
     to: email,
     subject: 'Club Invitation',
-    text: `You are invited to join our great club. Follow this ${process.env.SITE_URL}/${req.club.id}/?invitation=${invitationToken}`,
+    html: `<div style="text-align:center"><p>You are invited to join our great club </p>
+    <a style="background-color:black;color:white;padding: 10px 30px" href='${WEB_URL}/${req.club.id}/?invitation=${invitationToken}' target='_black'>Join </a>
+    <p>Or copy this link to your browser ${WEB_URL}/${req.club.id}/?invitation=${invitationToken}</p>
+    </div>`,
   };
   mailHandler(emailBody);
   res.status(200).json({ success: true, data: 'Invitation sent' });

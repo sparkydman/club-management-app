@@ -1,20 +1,20 @@
 import {
-  REGISTER_FAIL,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
+  GET_ME_FAIL,
+  GET_ME_REQUEST,
+  GET_ME_SUCCESS,
 } from '../../constants/user';
 
-const register = (state = { user: null }, action) => {
+const getMe = (state = { user: null }, action) => {
   const { type, payload } = action;
   switch (type) {
-    case REGISTER_REQUEST:
+    case GET_ME_REQUEST:
       return { loading: true };
-    case REGISTER_SUCCESS:
+    case GET_ME_SUCCESS:
       return { loading: false, user: payload };
-    case REGISTER_FAIL:
+    case GET_ME_FAIL:
       return { loading: false, error: payload };
     default:
       return state;
   }
 };
-export default register;
+export default getMe;

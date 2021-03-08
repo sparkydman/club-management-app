@@ -15,14 +15,14 @@ module.exports = async (req, res) => {
   if (!user[0]) {
     return res.status(404).json({
       sucess: false,
-      error: new ErrorResponse(null, 'Invalid credential', 404),
+      error: new ErrorResponse(null, 'Email or Password is not correct', 403),
     });
   }
   const isUser = await bcyrpt.compare(password, user[0].password);
   if (!isUser) {
     return res.status(404).json({
       sucess: false,
-      error: new ErrorResponse(null, 'Invalid credential', 404),
+      error: new ErrorResponse(null, 'Email or Password is not correct', 403),
     });
   }
   delete user[0].password;
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
   user[0].token = generateAccessToken;
 
   res
-    .cookie('refresh-token', generateRefreshToken, {
+    .cookie('__refresh_token', generateRefreshToken, {
       domain: '/',
       maxAge: 60 * 60 * 24 * 7 * 1000,
       httpOnly: true,

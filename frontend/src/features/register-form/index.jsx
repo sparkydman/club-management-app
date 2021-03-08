@@ -7,6 +7,7 @@ import TextField from '../../ui/text-field';
 import { Link } from 'react-router-dom';
 
 import register from '../../redux/actions/user/register';
+import { getErrorMsg } from '../../utils/get-err-msg';
 
 const defaultValue = {
   firstname: '',
@@ -20,7 +21,9 @@ export default function Registerform() {
 
   const dispatch = useDispatch();
   const registerState = useSelector((state) => state.register);
-  const { user, loading } = registerState;
+  const { loading, error } = registerState;
+  const me = useSelector((state) => state.me);
+  const { user } = me;
 
   const history = useHistory();
 
@@ -31,10 +34,9 @@ export default function Registerform() {
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
-
   useEffect(() => {
-    if (user && user.success) {
-      history.replace('./');
+    if (user !== null) {
+      history.replace('/');
     }
   }, [user, history]);
 
@@ -49,7 +51,7 @@ export default function Registerform() {
           label='First name'
           value={value.firstname}
           onChange={onChange}
-          required
+          error={error && getErrorMsg(error.path, 'firstname', error.message)}
         />
         <TextField
           id='register-lastname'
@@ -58,17 +60,16 @@ export default function Registerform() {
           label='Last name'
           value={value.lastname}
           onChange={onChange}
-          required
+          error={error && getErrorMsg(error.path, 'lastname', error.message)}
         />
         <TextField
           id='register-email'
           name='email'
           placeholder='Enter email'
           label='Email'
-          type='email'
           value={value.email}
           onChange={onChange}
-          required
+          error={error && getErrorMsg(error.path, 'email', error.message)}
         />
         <TextField
           id='register-password'
@@ -78,9 +79,13 @@ export default function Registerform() {
           type='password'
           value={value.password}
           onChange={onChange}
-          required
+          error={error && getErrorMsg(error.path, 'password', error.message)}
         />
-        <Button disable={loading && loading} type='submit' value='Register' />
+        <Button
+          disable={loading && loading ? true : false}
+          type='submit'
+          value='Register'
+        />
         <p className='pt-1 pb-4 block text-right w-full'>
           Already have an account?
           <Link to='/login'>

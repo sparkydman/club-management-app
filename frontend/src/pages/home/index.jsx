@@ -15,7 +15,7 @@ export default function Home() {
         <div className='flex' style={{ minHeight: 'calc(80vh - 56px)' }}>
           <aside
             className='min-h-full overflow-y-scroll shadow-md'
-            style={{ width: '30%' }}
+            style={{ width: '25%' }}
           >
             {clubs.map((club) => (
               <ClubListItem
@@ -37,9 +37,7 @@ export default function Home() {
             ))}
             <MessageForm />
           </main>
-          {/* <aside>
-                    
-            </aside> */}
+          {/* <aside>{}</aside> */}
         </div>
       </div>
     </div>

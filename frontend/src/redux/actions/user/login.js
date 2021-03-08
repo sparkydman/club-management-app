@@ -1,28 +1,33 @@
 import http from '../../../utils/axios';
 
 import {
-  REGISTER_FAIL,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
+  LOGIN_FAIL,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
   SET_TOKEN,
+  GET_ME_SUCCESS,
 } from '../../constants/user';
 
-const Register = (userData) => async (dispatch) => {
+const login = (userData) => async (dispatch) => {
   try {
-    dispatch({ type: REGISTER_REQUEST });
-    const { data } = await http.post('/users', userData);
+    dispatch({ type: LOGIN_REQUEST });
+    const { data } = await http.post('/users/login', userData);
     http.defaults.headers.Authorization = `Bearer ${data.token}`;
     dispatch({
       type: SET_TOKEN,
-      payload: data.token,
+      payload: data.data.token,
     });
     dispatch({
-      type: REGISTER_SUCCESS,
-      payload: data,
+      type: GET_ME_SUCCESS,
+      payload: data.data,
+    });
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: data.data,
     });
   } catch (error) {
     dispatch({
-      type: REGISTER_FAIL,
+      type: LOGIN_FAIL,
       payload: error.response
         ? {
             message: error.response.data.error.message,
@@ -32,4 +37,4 @@ const Register = (userData) => async (dispatch) => {
     });
   }
 };
-export default Register;
+export default login;
