@@ -14,7 +14,7 @@ const options = {
 
 const http = axios.create({
   baseURL:
-    process.env === 'production'
+    process.env.NODE_ENV === 'production'
       ? `${process.env.SITE_URL}/api`
       : 'http://localhost:8000/api',
   headers: options,
