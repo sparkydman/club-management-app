@@ -1,4 +1,5 @@
 const models = require('../../models');
+const { createTokens } = require('../../utils/jwt');
 
 module.exports = async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
