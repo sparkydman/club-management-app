@@ -4,7 +4,7 @@ import {
   REGISTER_FAIL,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
-  SET_TOKEN,
+  GET_TOKEN_SUCCESS,
 } from '../../constants/user';
 
 const Register = (userData) => async (dispatch) => {
@@ -13,7 +13,7 @@ const Register = (userData) => async (dispatch) => {
     const { data } = await http.post('/users', userData);
     http.defaults.headers.Authorization = `Bearer ${data.token}`;
     dispatch({
-      type: SET_TOKEN,
+      type: GET_TOKEN_SUCCESS,
       payload: data.token,
     });
     dispatch({

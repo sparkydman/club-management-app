@@ -9,14 +9,23 @@ const upadateUser = require('../controllers/users/upadate-user.js');
 const requireAuth = require('../middleware/require-auth.js');
 const catchErr = require('../utils/catch-error');
 const getUser = require('../controllers/users/get-user.js');
+const getToken = require('../controllers/users/get-token.js');
 
 router.param('userId', getUserById);
 
 // get all users
-router.get('/', requireAuth, catchErr(getUsers));
+router.get('/', catchErr(getUsers));
 
 // create user
 router.post('/', catchErr(createUser));
+
+// get login user
+router.get('/token', getToken);
+
+// logout
+router.get('/logout', requireAuth, (req, res) => {
+  res.clearCookie('__refresh_token').redirect('/login');
+});
 
 // get login user
 router.get('/me', requireAuth, catchErr(getMe));

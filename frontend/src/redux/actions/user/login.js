@@ -4,7 +4,7 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  SET_TOKEN,
+  GET_TOKEN_SUCCESS,
   GET_ME_SUCCESS,
 } from '../../constants/user';
 
@@ -14,7 +14,7 @@ const login = (userData) => async (dispatch) => {
     const { data } = await http.post('/users/login', userData);
     http.defaults.headers.Authorization = `Bearer ${data.token}`;
     dispatch({
-      type: SET_TOKEN,
+      type: GET_TOKEN_SUCCESS,
       payload: data.data.token,
     });
     dispatch({

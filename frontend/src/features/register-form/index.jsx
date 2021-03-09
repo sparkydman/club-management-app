@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import Button from '../../ui/button';
 import TextField from '../../ui/text-field';
@@ -22,10 +21,6 @@ export default function Registerform() {
   const dispatch = useDispatch();
   const registerState = useSelector((state) => state.register);
   const { loading, error } = registerState;
-  const me = useSelector((state) => state.me);
-  const { user } = me;
-
-  const history = useHistory();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -34,11 +29,6 @@ export default function Registerform() {
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
-  useEffect(() => {
-    if (user !== null) {
-      history.replace('/');
-    }
-  }, [user, history]);
 
   return (
     <div className='shadow-md rounded-md bg-white w-4/5 lg:w-1/2 p-4'>
@@ -81,11 +71,7 @@ export default function Registerform() {
           onChange={onChange}
           error={error && getErrorMsg(error.path, 'password', error.message)}
         />
-        <Button
-          disable={loading && loading ? true : false}
-          type='submit'
-          value='Register'
-        />
+        <Button disable={`${loading}`} type='submit' value='Register' />
         <p className='pt-1 pb-4 block text-right w-full'>
           Already have an account?
           <Link to='/login'>

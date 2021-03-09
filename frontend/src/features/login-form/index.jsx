@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import Button from '../../ui/button';
 import TextField from '../../ui/text-field';
@@ -18,10 +17,6 @@ export default function Loginform() {
   const dispatch = useDispatch();
   const loginState = useSelector((state) => state.login);
   const { loading, error } = loginState;
-  const me = useSelector((state) => state.me);
-  const { user } = me;
-
-  const history = useHistory();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -30,12 +25,6 @@ export default function Loginform() {
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
-
-  useEffect(() => {
-    if (user !== null) {
-      history.replace('./');
-    }
-  }, [user, history]);
 
   return (
     <div className='shadow-md rounded-md bg-white w-4/5 lg:w-1/2 p-4'>
@@ -60,11 +49,7 @@ export default function Loginform() {
           onChange={onChange}
           error={error && error.message}
         />
-        <Button
-          type='submit'
-          value='Login'
-          disable={loading && loading ? true : false}
-        />
+        <Button type='submit' value='Login' disable={`${loading}`} />
         <p className='pt-1 pb-4 block text-right w-full'>
           Don't have an account yet?
           <Link to='/register'>

@@ -4,7 +4,7 @@ import {
   GET_ME_SUCCESS,
 } from '../../constants/user';
 
-const getMe = (state = { user: null }, action) => {
+const getMe = (state = { user: null, error: null }, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_ME_REQUEST:

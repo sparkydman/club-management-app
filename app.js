@@ -11,8 +11,22 @@ dotenv.config();
 // Init express
 const app = express();
 
-// Implement default cors setup middleware
-app.use(cors());
+// Implement cors setup middleware
+var whitelist = [
+  'http://localhost:3000',
+  'https://gozie-club-app.herokuapp.com',
+];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // implement express bodyparser middleware
 app.use(express.json());

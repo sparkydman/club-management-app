@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { store } from '../redux/store';
-import { SET_TOKEN } from '../redux/constants/user';
+import { GET_TOKEN_SUCCESS } from '../redux/constants/user';
 
 let isRefreshing = false;
 let refreshSubscribers = [];
@@ -18,11 +18,11 @@ const http = axios.create({
       ? `${process.env.REACT_APP_SITE_URL}/api`
       : 'http://localhost:8000/api',
   headers: options,
+  withCredentials: true,
 });
 
 http.interceptors.response.use(
   (response) => {
-    // console.log(response);
     return response;
   },
   async (error) => {
@@ -31,19 +31,18 @@ http.interceptors.response.use(
       response: { status },
     } = error;
     const originalRequest = config;
-    // console.log(status);
 
     if (status === 401) {
       if (!isRefreshing) {
         isRefreshing = true;
         try {
           const { data } = await http.get('/users/token');
-          store.dispatch({ type: SET_TOKEN, payload: data.token });
+          store.dispatch({ type: GET_TOKEN_SUCCESS, payload: data.token });
           isRefreshing = false;
           onRrefreshed(data.token);
         } catch (error) {
           console.log(error);
-          window.location.href = '/login';
+          window.location.replace = '/login';
         }
       }
       // eslint-disable-next-line no-unused-vars

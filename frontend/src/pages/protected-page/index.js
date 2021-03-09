@@ -10,11 +10,7 @@ export default function ProctectedPage({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) =>
-        !loading && user === null ? (
-          <Redirect to='/login' />
-        ) : (
-          <Component {...props} />
-        )
+        !loading && !user ? <Redirect to='/login' /> : <Component {...props} />
       }
     />
   );

@@ -33,14 +33,12 @@ module.exports = async (req, res) => {
   );
 
   user[0].token = generateAccessToken;
-
   res
     .cookie('__refresh_token', generateRefreshToken, {
-      domain: '/',
       maxAge: 60 * 60 * 24 * 7 * 1000,
       httpOnly: true,
       sameSite: true,
-      secure: process.env.NODE_ENV !== 'development' ? true : false,
+      secure: process.env.NODE_ENV === 'development' ? false : true,
     })
     .status(200)
     .json({ sucess: true, data: user[0] });

@@ -6,8 +6,12 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 
-export const SET_TOKEN = 'GET_TOKEN';
+export const SET_TOKEN = 'SET_TOKEN';
 
 export const GET_ME_REQUEST = 'GET_ME_REQUEST';
 export const GET_ME_SUCCESS = 'GET_ME_SUCCESS';
 export const GET_ME_FAIL = 'GET_ME_FAIL';
+
+export const GET_TOKEN_REQUEST = 'GET_TOKEN_REQUEST';
+export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
+export const GET_TOKEN_FAIL = 'GET_TOKEN_FAIL';

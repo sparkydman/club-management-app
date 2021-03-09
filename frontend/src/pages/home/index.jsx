@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ClubHeader from '../../ui/club-header';
 import ClubListItem from '../../ui/club-list-item';
 import MessageListItem from '../../ui/message-list-item';
 import MessageForm from '../../features/message-form';
+import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
+  const me = useSelector((state) => state.me);
+  const { user } = me;
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!user) {
+      history.replace('/login');
+    }
+  }, [history, user]);
   return (
     <div className='relative w-full h-full'>
       <div
@@ -99,7 +110,7 @@ const messages = [
     createdAt: '2021-03-07T09:48:33.632Z',
   },
   {
-    id: 1,
+    id: 2,
     commentBy: {
       id: 1,
       firstname: 'John',
