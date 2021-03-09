@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
     );
     res.status(200).json({ token: generateAccessToken });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(400).json({
       success: false,
       error: new ErrorResponse(null, 'Server error', 500),

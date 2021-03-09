@@ -1,17 +1,23 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import getMe from '../../redux/actions/user/getme';
 
 export default function ProctectedPage({ component: Component, ...rest }) {
-  const me = useSelector((state) => state.me);
-  const { loading, user } = me;
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.token);
+  const { loading, token, error } = auth;
+  useEffect(() => {
+    if (!loading && !token) {
+      dispatch(getMe());
+    }
+  }, [loading, token, error, dispatch]);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        !loading && !user ? <Redirect to='/login' /> : <Component {...props} />
-      }
-    />
-  );
+  useEffect(() => {
+    if (!loading && error) {
+      <Redirect to='/login' />;
+    }
+  }, [loading, error]);
+
+  return <Route {...rest} render={(props) => <Component {...props} />} />;
 }

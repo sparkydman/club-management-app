@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { store } from '../redux/store';
-import { GET_TOKEN_SUCCESS } from '../redux/constants/user';
+import { GET_TOKEN_FAIL, GET_TOKEN_SUCCESS } from '../redux/constants/user';
 
 let isRefreshing = false;
-let refreshSubscribers = [];
 
 const options = {
   common: {
@@ -38,34 +37,26 @@ http.interceptors.response.use(
         try {
           const { data } = await http.get('/users/token');
           store.dispatch({ type: GET_TOKEN_SUCCESS, payload: data.token });
-          isRefreshing = false;
-          onRrefreshed(data.token);
+          http.defaults.headers.Authorization = `Bearer ${data.token}`;
+          originalRequest.headers.Authorization = 'Bearer ' + data.token;
+          return await axios(originalRequest);
         } catch (error) {
-          console.log(error);
+          store.dispatch({
+            type: GET_TOKEN_FAIL,
+            payload: error.response
+              ? {
+                  message: error.response.data.error.message,
+                  path: error.response.data.error.path,
+                }
+              : { message: error.message },
+          });
           window.location.replace = '/login';
         }
       }
-      // eslint-disable-next-line no-unused-vars
-      const retryOrigReq = new Promise((resolve, reject) => {
-        subscribeTokenRefresh((token) => {
-          http.defaults.headers.Authorization = `Bearer ${token}`;
-          originalRequest.headers.Authorization = 'Bearer ' + token;
-          resolve(axios(originalRequest));
-        });
-      });
-      return retryOrigReq;
     } else {
       return Promise.reject(error);
     }
   }
 );
-
-const subscribeTokenRefresh = (cb) => {
-  refreshSubscribers.push(cb);
-};
-
-const onRrefreshed = (token) => {
-  refreshSubscribers.map((cb) => cb(token));
-};
 
 export default http;

@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 import Registerform from '../../features/register-form';
 
 export default function Register() {
   const me = useSelector((state) => state.me);
   const { user } = me;
-  const history = useHistory();
 
   useEffect(() => {
     if (user) {
-      history.replace('/');
+      <Redirect to='/login' />;
     }
   });
   return (

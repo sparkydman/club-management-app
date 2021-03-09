@@ -3,19 +3,19 @@ import ClubHeader from '../../ui/club-header';
 import ClubListItem from '../../ui/club-list-item';
 import MessageListItem from '../../ui/message-list-item';
 import MessageForm from '../../features/message-form';
-import { useHistory } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function Home() {
   const me = useSelector((state) => state.me);
   const { user } = me;
-  const history = useHistory();
 
   useEffect(() => {
     if (!user) {
-      history.replace('/login');
+      <Redirect to='/login' />;
     }
-  }, [history, user]);
+  }, [user]);
+
   return (
     <div className='relative w-full h-full'>
       <div

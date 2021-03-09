@@ -39,6 +39,7 @@ module.exports = async (req, res) => {
       httpOnly: true,
       sameSite: true,
       secure: process.env.NODE_ENV === 'development' ? false : true,
+      domain: process.env.NODE_ENV === 'production' ? process.env.SITE_URL : '',
     })
     .status(200)
     .json({ sucess: true, data: user[0] });

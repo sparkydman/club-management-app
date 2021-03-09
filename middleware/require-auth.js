@@ -26,7 +26,7 @@ module.exports = async (req, res, next) => {
     }
     req.user = user[0];
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(401).json({
       success: false,
       error: new ErrorResponse(null, 'Access token is not valid', 401),
